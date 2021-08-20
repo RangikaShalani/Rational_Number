@@ -1,0 +1,45 @@
+object Recursive {
+
+  class rational(n:Int, d:Int){
+
+    //Requirement
+    require(d>0, "d must be greater than 0")
+
+    //numorator
+    def numorator = n/math.abs(gcd(n,d))
+
+    //denominator
+    def denominator = d/math.abs(gcd(n,d))
+
+    //contructor to single parameter object
+    def this(n:Int) = this(n, 1)
+
+    def gcd(va1:Int, va2:Int):Int = if(va2 == 0) va1 else gcd(va2, va1%va2)
+
+    def +(r:rational) = new rational((this.numorator*r.denominator) + (r.numorator*this.denominator), this.denominator*r.denominator)
+
+    def neg = new rational(-numorator, denominator)
+
+    def -(r:rational) = this + r.neg
+
+    override def toString = numorator+"/"+denominator
+  }
+
+  def main(args: Array[String]): Unit = {
+
+    var a = new rational(7,2)
+
+    var x = new rational(5,4)
+    var y = new rational(5,6)
+    var z = new rational(8,7)
+
+    var b = x-y-z
+
+    println("Negation of a is  : " + a.neg)
+    println("Substrction of x, y, z is  : " + b)
+
+
+  }
+
+
+}
