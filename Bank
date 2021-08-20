@@ -1,0 +1,46 @@
+object bank {
+
+  class account( acc:Int, bala:Int, NIC: String){
+
+    def acc_no = acc
+    var balance = bala
+    def NIC_no = NIC
+
+    def transfer(user:account, amount:Int) = {
+      this.balance = this.balance-amount
+      user.balance = user.balance+amount
+    }
+
+    def +(user:account) = new account( acc_no, this.balance + user.balance, NIC_no)
+
+    def <(n:Int) = if(this.balance < n) true else false
+
+    def interest:Double = if(balance > 0) this.balance*105/100 else this.balance*110/100
+
+    override def toString = ""+balance
+
+  }
+
+  def main(args: Array[String]): Unit = {
+
+
+
+    var user1 = new account(4857852, 1000, "9875584v")
+    var user2 = new account(4879513, -55000 , "9786954v")
+    var user3 = new account(4879546, 12000, "9964789v")
+
+    var bank:List[account]=List(user1, user2, user3)
+
+    val totalBalance=(b:List[account])=> b.reduce((x,y)=>x+y)
+    val finalBalance=(b:List[account])=> b.map(_.interest)
+    val overDraft = (b:List[account])=> b.filter(x=>x<0)
+
+    println("Sum of account balances : " + totalBalance(bank))
+    println("OverDraft List = " + overDraft(bank))
+    println("Final balances of accounts : "+finalBalance(bank))
+    println("Transfer 1000 ucer3 to user1")
+    user3.transfer(user1, 1000)
+    println("Final balances of accounts : "+finalBalance(bank))
+  }
+
+}
